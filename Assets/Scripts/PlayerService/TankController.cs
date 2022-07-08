@@ -12,6 +12,7 @@ public class TankController
     {
         tankModel = _tankModel;
         tankView = GameObject.Instantiate<TankView>(_tankView);
+        tankView.enabled = true;
         rb = tankView.GetComponent<Rigidbody>();
 
         tankModel.setTankController(this);

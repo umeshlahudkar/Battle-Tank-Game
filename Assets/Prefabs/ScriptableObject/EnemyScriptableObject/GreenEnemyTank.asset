@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a657c7e1caead644be336fbfcdf5017, type: 3}
+  m_Name: GreenEnemyTank
+  m_EditorClassIdentifier: 
+  tankType: 3
+  position: {x: -3, y: 0, z: 0}
+  movementSpeed: 20
+  rotationSpeed: 20
+  bulletType: 3
+  enemyView: {fileID: -7808446959027151962, guid: 163c003161388e54287a96a5b8aaa932,
+    type: 3}
