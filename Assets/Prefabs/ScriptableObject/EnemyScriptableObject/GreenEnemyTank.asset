@@ -13,9 +13,13 @@ MonoBehaviour:
   m_Name: GreenEnemyTank
   m_EditorClassIdentifier: 
   tankType: 3
-  position: {x: -3, y: 0, z: 0}
   movementSpeed: 20
   rotationSpeed: 20
+  health: 70
+  damageByEnemy: 5
+  damageByBullet: 10
   bulletType: 3
   enemyView: {fileID: -7808446959027151962, guid: 163c003161388e54287a96a5b8aaa932,
+    type: 3}
+  PatrolPath: {fileID: 4487121541925404777, guid: a8813e35bc69c094190870d43338610b,
     type: 3}

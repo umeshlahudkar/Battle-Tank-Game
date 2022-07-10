@@ -1,20 +1,19 @@
-
 using UnityEngine;
 
 public class TankService : GenericMonoSingleton<TankService>
 {
     [SerializeField] TankListScriptableObject TankList;
-    private TankScriptableObject tankScriptableObject;
+    public TankView activePlayer;
+    public bool isGameOver = false;
 
     void Start()
     {
-        Debug.Log("Tank Service");
         CreateTank();
     }
 
     public void CreateTank()
     {
-        tankScriptableObject = TankList.tanks[GetRandomNumber()];
+        TankScriptableObject tankScriptableObject = TankList.tanks[GetRandomNumber()];
         TankModel tankModel = new TankModel(tankScriptableObject);
         TankController tankController = new TankController(tankModel, tankScriptableObject.tankView);
     }
