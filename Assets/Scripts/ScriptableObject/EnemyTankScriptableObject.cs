@@ -8,8 +8,11 @@ public class EnemyTankScriptableObject : ScriptableObject
     public float movementSpeed;
     public float rotationSpeed;
     public float health;
-    public float damageByEnemy;
-    public float damageByBullet;
+    public float chaseSpeed;
+    public float patrolSpeed;
+    public float firingDistance;
+    public float chasingDistance;
+    public float timeToFire;
     public BulletType bulletType;
     public EnemyView enemyView;
     public GameObject PatrolPath;

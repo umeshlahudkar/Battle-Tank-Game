@@ -16,8 +16,11 @@ MonoBehaviour:
   movementSpeed: 500
   rotationSpeed: 20
   health: 70
-  damageByEnemy: 5
-  damageByBullet: 10
+  chaseSpeed: 4
+  patrolSpeed: 3.5
+  firingDistance: 10
+  chasingDistance: 20
+  timeToFire: 3
   bulletType: 1
   enemyView: {fileID: -4720700239975590187, guid: 4b775dc41f2cccf49b06400401fc2812,
     type: 3}

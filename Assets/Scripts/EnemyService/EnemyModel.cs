@@ -6,17 +6,25 @@ public class EnemyModel
 {
     EnemyController enemyController;
     BulletType bulletType;
-    float damageByPlayerTank;
-    float damageByPlayerBullet;
     float health;
+    public GameObject wayPoints;
+    float timeToFire;
+    float chaseDistance;
+    float fireDistance;
+    float patrolSpeed;
+    float chaseSpeed;
 
 
     public EnemyModel(EnemyTankScriptableObject scriptableObject)
     {
         bulletType = scriptableObject.bulletType;
-        damageByPlayerTank = scriptableObject.damageByEnemy;
-        damageByPlayerBullet = scriptableObject.damageByBullet;
         health = scriptableObject.health;
+        wayPoints = scriptableObject.PatrolPath;
+        timeToFire = scriptableObject.timeToFire;
+        chaseDistance = scriptableObject.chasingDistance;
+        fireDistance = scriptableObject.firingDistance;
+        patrolSpeed = scriptableObject.patrolSpeed;
+        chaseSpeed = scriptableObject.chaseSpeed;
     }
 
     public void SetEnemyController(EnemyController _enemyController)
@@ -34,13 +42,25 @@ public class EnemyModel
         return health;
     }
 
-    public float GetDamageByPlayerTank()
+    public float GetFireTime()
     {
-        return damageByPlayerTank;
+        return timeToFire;
     }
-    public float GetDamageByPlayerBullet()
+    public float GetChaseDistance()
     {
-        return damageByPlayerBullet;
+        return chaseDistance;
+    }
+    public float GetChaseSpeed()
+    {
+        return chaseSpeed;
+    }
+    public float GetPatrolSpeed()
+    {
+        return patrolSpeed;
+    }
+    public float GetFireDistance()
+    {
+        return fireDistance;
     }
 
     public BulletType GetBulletType()

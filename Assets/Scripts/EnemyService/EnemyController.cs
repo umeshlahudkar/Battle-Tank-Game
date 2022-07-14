@@ -7,50 +7,74 @@ public class EnemyController
     EnemyModel enemyModel { get; }
     EnemyView enemyView { get; }
 
-    private EnemyTankScriptableObject enemyTankScriptableObject;
-
-    int index;
+    EnemyTankState currentState;
+    NavMeshAgent agent;
+    Transform bulletSpwanPosition;
 
     public EnemyController(EnemyModel _enemyModel, EnemyTankScriptableObject _enemyTankScriptableObject)
     {
         enemyModel = _enemyModel;
         enemyView = GameObject.Instantiate<EnemyView>(_enemyTankScriptableObject.enemyView);
-        enemyView.transform.position = _enemyTankScriptableObject.PatrolPath.transform.GetChild(index).position;
+        enemyView.transform.position = _enemyTankScriptableObject.PatrolPath.transform.GetChild(0).position;
 
-        enemyTankScriptableObject = _enemyTankScriptableObject;
+        agent = enemyView.GetNavmeshAgent();
+        bulletSpwanPosition = enemyView.GetBulletSpwanPosition();
 
         enemyModel.SetEnemyController(this);
         enemyView.SetEnemyController(this);
     }
 
-    public void Patrol(Vector3 currentPosition)
+    public void ProcessState()
     {
-        if (Vector3.Distance(currentPosition, enemyTankScriptableObject.PatrolPath.transform.GetChild(index).position) <= 2)
-        {
-            index++;
-        }
-
-        if (index >= enemyTankScriptableObject.PatrolPath.transform.childCount)
-        {
-            index = 0;
-        }
-
-        enemyView.GetNavmeshAgent().SetDestination(enemyTankScriptableObject.PatrolPath.transform.GetChild(index).position);
+        currentState.Update();
     }
 
-    public void Chase(Vector3 targetPosition)
+    public void ChangeState(TankState newState)
     {
-        enemyView.GetNavmeshAgent().SetDestination(targetPosition);
+        if(currentState != null)
+        {
+            currentState.Exit();
+        }
+
+        currentState = GetEnemyTankState(newState);
+
+        currentState.Enter();
     }
+
+    public EnemyTankState GetEnemyTankState(TankState newState)
+    {
+        EnemyTankState newTankState = null;
+
+        switch(newState)
+        {
+            case TankState.Idle:
+                newTankState = new EnemyIdleState(TankService.Instance.activePlayer.transform, enemyView.transform, agent, this, bulletSpwanPosition);
+                break;
+
+            case TankState.Patrol:
+                newTankState = new EnemyPatrolState(TankService.Instance.activePlayer.transform, enemyView.transform, agent, this, bulletSpwanPosition);
+                break;
+
+            case TankState.Chase:
+                newTankState = new EnemyChaseState(TankService.Instance.activePlayer.transform, enemyView.transform, agent, this, bulletSpwanPosition);
+                break;
+
+            case TankState.Attack:
+                newTankState = new EnemyAttackState(TankService.Instance.activePlayer.transform, enemyView.transform, agent, this, bulletSpwanPosition);
+                break;
+
+            default:
+                newTankState = null;
+                break;
+        }
+
+        return newTankState;
+    }
+
 
     public void FireBullet(Transform spwantransform)
     {
         BulletService.Instance.SpwanBullet(enemyModel.GetBulletType(), spwantransform);
-    }
-
-    public bool IsInRange(Vector3 currentPos)
-    {
-        return Vector3.Distance(TankService.Instance.activePlayer.transform.position, currentPos) < 10f;
     }
 
     public void TakeDamage(float damage)
