@@ -5,6 +5,7 @@ using UnityEngine;
 public class EnemyService : GenericMonoSingleton<EnemyService>
 {
     [SerializeField] EnemyTankListScriptableObject enemyTankListScriptableObject;
+
     void Start()
     {
         for(int i = 0; i < enemyTankListScriptableObject.enemyTanks.Length; i++)
@@ -19,4 +20,5 @@ public class EnemyService : GenericMonoSingleton<EnemyService>
         EnemyModel enemyModel = new EnemyModel(_tankScriptableObject);
         EnemyController enemyController = new EnemyController(enemyModel, _tankScriptableObject);
     }
+
 }

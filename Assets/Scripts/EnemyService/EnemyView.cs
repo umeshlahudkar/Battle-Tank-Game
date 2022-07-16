@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
@@ -21,14 +22,20 @@ public class EnemyView : MonoBehaviour , IDamagable
 
     private void Update()
     {
+        if(enemyController.IsDead())
+        {
+            DestroyObject();
+            return;
+        }
+
         enemyController.LookToward(sliderCanvas, mainCamera.transform.position);
         enemyController.ProcessState();
 
-        if (Input.GetKeyDown(KeyCode.Backspace))
-        {
-            enemyController.FireBullet(bulletSpwanPos);
-        }
-        
+    }
+
+    private void DestroyObject()
+    {
+        Destroy(gameObject);
     }
 
     public NavMeshAgent GetNavmeshAgent()

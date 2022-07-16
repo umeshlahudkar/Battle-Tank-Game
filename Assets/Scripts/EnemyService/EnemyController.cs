@@ -71,10 +71,15 @@ public class EnemyController
         return newTankState;
     }
 
-
-    public void FireBullet(Transform spwantransform)
+    public bool IsDead()
     {
-        BulletService.Instance.SpwanBullet(enemyModel.GetBulletType(), spwantransform);
+        if(enemyModel.GetHealth() <= 0)
+        {
+            EventService.Instance.InvokeOnEnemyKillEvent();
+            return true;
+        }
+
+        return false;
     }
 
     public void TakeDamage(float damage)

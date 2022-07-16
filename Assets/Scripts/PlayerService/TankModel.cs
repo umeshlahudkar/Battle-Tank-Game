@@ -12,6 +12,10 @@ public class TankModel
     float damageByEnemyTank;
     float damageByEnemyBullet;
 
+    public int bulletCounter;
+    public int enemyKillCount;
+
+
     public TankModel(TankScriptableObject scriptableObject)
     {
         movementSpeed = scriptableObject.movementSpeed;

@@ -5,6 +5,7 @@ public class TankController
 {
     private TankModel tankModel;
     private TankView tankView;
+    private int bulletsCount;
 
     public TankController(TankModel _tankModel, TankView _tankView)
     {
@@ -16,6 +17,22 @@ public class TankController
 
         tankModel.setTankController(this);
         tankView.setTankController(this);
+
+        EventService.Instance.OnBulletFire += UpdateBulletCount;
+        EventService.Instance.OnEnemyKilled += UpdateEnemyKillCount;
+    }
+
+    public void UpdateBulletCount()
+    {
+        tankModel.bulletCounter++;
+        AchievmentHandler.Instance.CheckForBulletAchievmentUnlock(tankModel.bulletCounter);
+    }
+
+    public void UpdateEnemyKillCount()
+    {
+        tankModel.enemyKillCount++;
+        UIDisplay.Instance.DisplayEnemyKillText(tankModel.enemyKillCount);
+        AchievmentHandler.Instance.CheckForEnemyKillAchievmentUnlock(tankModel.enemyKillCount);
     }
 
     public void Move(float movement)
@@ -31,9 +48,11 @@ public class TankController
     public void FireBullet(Transform bulleteTransform)
     {
         BulletService.Instance.SpwanBullet(tankModel.GetBulletType(), bulleteTransform);
+
+        EventService.Instance.InvokeOnBulletFireEvent();
     }
 
-    public void TakeDamage(float damage)
+     public void TakeDamage(float damage)
     {
         float health = tankModel.GetHealth() - damage;
         tankModel.SetHealth(health);
