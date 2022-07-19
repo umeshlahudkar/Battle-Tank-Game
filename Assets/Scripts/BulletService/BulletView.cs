@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BulletView : MonoBehaviour
@@ -16,6 +14,7 @@ public class BulletView : MonoBehaviour
     {
         bulletSpeed = bulletController.GetBulletModel().GetBulletSpeed();
         bulletDamage = bulletController.GetBulletModel().GetBulletDamage();
+
     }
 
     void Update()
@@ -25,7 +24,7 @@ public class BulletView : MonoBehaviour
         runningTime += Time.deltaTime;
         if(runningTime >= timeToDisable)
         {
-            Destroy(gameObject);
+            bulletController.Disable();
             runningTime = 0;
         }
     }
@@ -39,7 +38,17 @@ public class BulletView : MonoBehaviour
             damagable.TakeDamage((int)bulletDamage);
         }
 
-        Destroy(gameObject);
+        bulletController.Disable();
+    }
+
+    internal void Disable()
+    {
+        gameObject.SetActive(false);
+    }
+
+    internal void Enable()
+    {
+        gameObject.SetActive(true);
     }
 
     public void SetBulletController(BulletController _bulletController)

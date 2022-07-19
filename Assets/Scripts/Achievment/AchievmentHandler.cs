@@ -28,6 +28,6 @@ public class AchievmentHandler : GenericMonoSingleton<AchievmentHandler>
 
     private void UnlockAchievment(string name)
     {
-        UIDisplay.Instance.DisplayAchievmentText(name);
+        UIDisplay.Instance.DisplayAchievment(name);
     }
 }

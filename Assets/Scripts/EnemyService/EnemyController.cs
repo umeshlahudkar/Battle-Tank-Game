@@ -10,15 +10,18 @@ public class EnemyController
     EnemyTankState currentState;
     NavMeshAgent agent;
     Transform bulletSpwanPosition;
+    Slider healthBar;
 
     public EnemyController(EnemyModel _enemyModel, EnemyTankScriptableObject _enemyTankScriptableObject)
     {
         enemyModel = _enemyModel;
         enemyView = GameObject.Instantiate<EnemyView>(_enemyTankScriptableObject.enemyView);
+
         enemyView.transform.position = _enemyTankScriptableObject.PatrolPath.transform.GetChild(0).position;
 
         agent = enemyView.GetNavmeshAgent();
         bulletSpwanPosition = enemyView.GetBulletSpwanPosition();
+        healthBar = enemyView.GetHealthBar();
 
         enemyModel.SetEnemyController(this);
         enemyView.SetEnemyController(this);
@@ -37,7 +40,6 @@ public class EnemyController
         }
 
         currentState = GetEnemyTankState(newState);
-
         currentState.Enter();
     }
 
@@ -75,10 +77,9 @@ public class EnemyController
     {
         if(enemyModel.GetHealth() <= 0)
         {
-            EventService.Instance.InvokeOnEnemyKillEvent();
+            Disable();
             return true;
         }
-
         return false;
     }
 
@@ -86,6 +87,7 @@ public class EnemyController
     {
         float health = enemyModel.GetHealth() - damage;
         enemyModel.SetHealth(health);
+        UpdateHealthBar();
     }
 
     public void LookToward(Canvas sliderCanvas, Vector3 target)
@@ -93,9 +95,25 @@ public class EnemyController
         sliderCanvas.transform.LookAt(target);
     }
 
-    public void UpdateHealthBar(Slider healthBar)
+    public void UpdateHealthBar()
     {
         healthBar.value = enemyModel.GetHealth();
+    }
+
+    public void Enable()
+    {
+        enemyView.transform.position = enemyModel.initialPosition;
+        enemyModel.SetHealth(enemyModel.initialhealth);
+        UpdateHealthBar();
+        enemyView.Enable();
+    }
+
+    public void Disable()
+    {
+        enemyView.Disable();
+        EnemyTankPool.enemyTankPool.ReturnTankToPool(this);
+        EnemyService.Instance.DestroyEnemy(this);
+        EventService.Instance.InvokeOnEnemyKillEvent();
     }
 
     public EnemyModel GetEnemyModel()

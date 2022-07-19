@@ -1,6 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using System.Threading.Tasks;
 using TMPro;
 
 public class UIDisplay : GenericMonoSingleton<UIDisplay>
@@ -8,28 +7,61 @@ public class UIDisplay : GenericMonoSingleton<UIDisplay>
     [SerializeField] TextMeshProUGUI scoreText;
     [SerializeField] TextMeshProUGUI enemyKilledText;
 
+    [Header("Achievment Display")]
     [SerializeField] GameObject achievmentDisplay;
     [SerializeField] TextMeshProUGUI achievmentDisplayText;
 
+    [Header("Spwan Display")]
+    [SerializeField] GameObject spwanDisplay;
+    [SerializeField] TextMeshProUGUI timerDisplayText;
 
-    public void DisplayScore(int score)
+    private void Start()
     {
-        scoreText.text = "SCORE : " + score;
+        EventService.Instance.OnEnemyKilled += DisplayScore;
+    }
+
+    private void OnDisable()
+    {
+        EventService.Instance.OnEnemyKilled -= DisplayScore;
+    }
+
+    public void DisplayScore()
+    {
+        scoreText.text = "SCORE : " + ScoreController.score;
 
     }
 
-    public void DisplayEnemyKillText(int enemyKilled)
+    public void DisplayEnemyKill(int enemyKilled)
     {
         enemyKilledText.text = "Kill : " + enemyKilled.ToString();
     }
 
-    public async void DisplayAchievmentText(string achievment)
+    public async void DisplayAchievment(string achievment)
     {
         achievmentDisplay.SetActive(true);
         achievmentDisplayText.text = achievment;
 
-        await System.Threading.Tasks.Task.Delay(System.TimeSpan.FromSeconds(3));
+        await Task.Delay(System.TimeSpan.FromSeconds(3));
 
         achievmentDisplay.SetActive(false);
+    }
+
+    public async void DisplaySpwaning()
+    {
+        float time = 3;
+        spwanDisplay.SetActive(true);
+        timerDisplayText.text = time.ToString();
+
+        await Task.Delay(System.TimeSpan.FromSeconds(1));
+        time--;
+        timerDisplayText.text = time.ToString();
+
+        await Task.Delay(System.TimeSpan.FromSeconds(1));
+        time--;
+        timerDisplayText.text = time.ToString();
+
+        await Task.Delay(System.TimeSpan.FromSeconds(1));
+
+        spwanDisplay.SetActive(false);
     }
 }

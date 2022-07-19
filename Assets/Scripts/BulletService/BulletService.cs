@@ -6,11 +6,11 @@ public class BulletService : GenericMonoSingleton<BulletService>
 {
     public BulletListScriptableObject bulletList;
 
-    public void SpwanBullet(BulletType bulletType, Transform bulleteTransform)
+    public void CreateBullet(BulletType bulletType, Transform bulleteTransform)
     {
         BulletScriptableObject bulletScriptableObject = GetBulletScriptablObject(bulletType);
         BulletModel bulletModel = new BulletModel(bulletScriptableObject);
-        BulletController bulletController = new BulletController(bulletModel, bulleteTransform, bulletScriptableObject.bulletView);
+        BulletController bulletController = new BulletController(bulletType, bulletModel, bulleteTransform, bulletScriptableObject.bulletView);
     }
 
     private BulletScriptableObject GetBulletScriptablObject(BulletType bulletType)

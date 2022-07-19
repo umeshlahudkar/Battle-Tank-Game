@@ -24,7 +24,7 @@ public class TankView : MonoBehaviour , IDamagable
     {
         tankController.LookToward(sliderCanvas, mainCamera.transform.position);
 
-        if(tankController.GetTankModel().GetHealth() <= 0)
+        if(tankController.IsDead())
         {
             TankService.Instance.isGameOver = true;
             Destroy(gameObject);

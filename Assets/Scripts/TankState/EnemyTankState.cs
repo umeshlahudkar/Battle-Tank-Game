@@ -3,6 +3,7 @@ using UnityEngine.AI;
 
 public enum TankState
 {
+    None,
     Idle,
     Patrol,
     Chase,
@@ -68,7 +69,7 @@ public class EnemyTankState
 
     protected void FireBullet()
     {
-        BulletService.Instance.SpwanBullet(enemyController.GetEnemyModel().GetBulletType(), bulletSpwanPos);
+        BulletService.Instance.CreateBullet(enemyController.GetEnemyModel().GetBulletType(), bulletSpwanPos);
     }
 }
 
