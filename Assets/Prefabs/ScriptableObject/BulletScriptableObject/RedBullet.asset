@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7e5a50924f07a84896c7a85000fad9b, type: 3}
   m_Name: RedBullet
   m_EditorClassIdentifier: 
-  speed: 20
-  bulletDamage: 10
+  bulletColor: {r: 1, g: 0, b: 0, a: 0}
   bulletType: 1
-  bulletView: {fileID: 7122657302718880728, guid: 461c69c7b26bceb4fb74f8dd2866291d,
+  bulletView: {fileID: 8880170052156318131, guid: 7844c939b9943504ea22b64b6bac6101,
+    type: 3}
+  bulletDamage: 10
+  bulletExplosionParticle: {fileID: 19807510, guid: 89e78efe92dfe5a42837b392cdb0bf9e,
     type: 3}

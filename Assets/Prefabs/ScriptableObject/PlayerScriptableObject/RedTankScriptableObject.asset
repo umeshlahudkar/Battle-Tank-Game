@@ -13,11 +13,13 @@ MonoBehaviour:
   m_Name: RedTankScriptableObject
   m_EditorClassIdentifier: 
   tankType: 1
-  damageByEnemy: 5
-  damageByBullet: 7
+  bulletLaunchForce: 15
   health: 100
   movementSpeed: 10
   rotationSpeed: 50
+  tankColor: {r: 1, g: 0, b: 0, a: 0}
   bulletType: 1
-  tankView: {fileID: 8579710060289539950, guid: d0588b2d2f7b0fe4d91c3c142dea5342,
+  tankView: {fileID: -8278358503533028624, guid: 8beddcb5fa2061247ac6368ae4bb5993,
+    type: 3}
+  tankExplosionParticle: {fileID: 19874418, guid: ee49a9a8678ecf8468eb488e1ac8d42b,
     type: 3}

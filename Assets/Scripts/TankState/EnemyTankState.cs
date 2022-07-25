@@ -1,30 +1,21 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-public enum TankState
-{
-    None,
-    Idle,
-    Patrol,
-    Chase,
-    Attack
-}
-
 public class EnemyTankState
 {
- 
     protected Transform player;
     protected Transform enemy;
     protected NavMeshAgent agent;
     protected EnemyController enemyController;
     protected GameObject wayPoints;
-    protected Transform bulletSpwanPos;
+    private Transform bulletSpwanPos;
 
     protected float timeToFire;
-    protected float chaseDistance;
-    protected float fireDistance;
+    private float chaseDistance;
+    private float fireDistance;
     protected float patrolSpeed;
     protected float chaseSpeed;
+    protected float bulletLaunchForce;
 
     public EnemyTankState(Transform _player, Transform _enemy, NavMeshAgent _agent, EnemyController _tankController, Transform _bulletSpwanPos)
     {
@@ -32,14 +23,15 @@ public class EnemyTankState
         enemy = _enemy;
         agent = _agent;
         enemyController = _tankController;
-        wayPoints = enemyController.GetEnemyModel().wayPoints;
+        wayPoints = enemyController.enemyModel.wayPoints;
         bulletSpwanPos = _bulletSpwanPos;
 
-        timeToFire = enemyController.GetEnemyModel().GetFireTime();
-        chaseDistance = enemyController.GetEnemyModel().GetChaseDistance();
-        fireDistance = enemyController.GetEnemyModel().GetFireDistance();
-        patrolSpeed = enemyController.GetEnemyModel().GetPatrolSpeed();
-        chaseSpeed = enemyController.GetEnemyModel().GetChaseSpeed();
+        timeToFire = enemyController.enemyModel.timeToFire;
+        chaseDistance = enemyController.enemyModel.chaseDistance;
+        fireDistance = enemyController.enemyModel.fireDistance;
+        patrolSpeed = enemyController.enemyModel.patrolSpeed;
+        chaseSpeed = enemyController.enemyModel.chaseSpeed;
+        bulletLaunchForce = enemyController.enemyModel.bulletLaunchForce;
     }
 
 
@@ -69,7 +61,16 @@ public class EnemyTankState
 
     protected void FireBullet()
     {
-        BulletService.Instance.CreateBullet(enemyController.GetEnemyModel().GetBulletType(), bulletSpwanPos);
+        BulletService.Instance.FireBullet(enemyController.enemyModel.bulletType, bulletSpwanPos, enemyController);
     }
+}
+
+public enum TankState
+{
+    None,
+    Idle,
+    Patrol,
+    Chase,
+    Attack
 }
 

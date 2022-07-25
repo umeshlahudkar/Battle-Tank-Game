@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -20,6 +18,7 @@ public class EnemyAttackState : EnemyTankState
 
     public override void Update()
     {
+        // Changing state into Idle state If Player is not in shooting range
         if (!CanFire())
         {
             enemyController.ChangeState(TankState.Idle);

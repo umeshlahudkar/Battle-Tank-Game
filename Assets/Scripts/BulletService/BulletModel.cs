@@ -1,13 +1,13 @@
-
 using UnityEngine;
-
 public class BulletModel
 {
-    private BulletController bulletController;
-
-    private float bulletSpeed;
-    private float bulletDamage;
-    private BulletType bulletType;
+    public BulletController bulletController { get; private set; }
+    public Color bulletColor { get; private set; }
+    public float bulletSpeed { get; private set; }
+    public float bulletDamage { get; private set; }
+    public BulletType bulletType { get; private set; }
+    public Vector3 currentVelocity { get; set; }
+    public ParticleSystem bulletExplosionParticle { get; private set; }
 
     public void SetBulletController(BulletController _bulletController)
     {
@@ -16,23 +16,9 @@ public class BulletModel
 
     public BulletModel(BulletScriptableObject scriptableObject)
     {
-        bulletSpeed = scriptableObject.speed;
         bulletDamage = scriptableObject.bulletDamage;
         bulletType = scriptableObject.bulletType;
-    }
-
-    public float GetBulletSpeed()
-    {
-        return bulletSpeed;
-    }
-
-    public float GetBulletDamage()
-    {
-        return bulletDamage;
-    }
-
-    public BulletType GetBulletType()
-    {
-        return bulletType;
+        bulletColor = scriptableObject.bulletColor;
+        bulletExplosionParticle = scriptableObject.bulletExplosionParticle;
     }
 }

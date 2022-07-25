@@ -9,38 +9,26 @@ public class EnemyView : MonoBehaviour , IDamagable
     [SerializeField] NavMeshAgent navMeshAgent;
     [SerializeField] Canvas sliderCanvas;
     [SerializeField] Slider healthBar;
-    Camera mainCamera;
 
     private void Start()
     {
-        mainCamera = Camera.main;
-        healthBar.maxValue = enemyController.GetEnemyModel().GetHealth();
-
+        enemyController.InitializeComponent(navMeshAgent, bulletSpwanPos, healthBar, sliderCanvas);
+        healthBar.maxValue = enemyController.enemyModel.health;
         enemyController.ChangeState(TankState.Idle);
     }
 
     private void Update()
     {
-        if(!enemyController.IsDead() && !TankService.Instance.isGameOver)
+        if(!enemyController.IsDead())
         {
-            enemyController.LookToward(sliderCanvas, mainCamera.transform.position);
+            enemyController.LookToward();
             enemyController.ProcessState();
+            return;
         }
-    }
-    public NavMeshAgent GetNavmeshAgent()
-    {
-        return navMeshAgent;
-    }
 
-    public Transform GetBulletSpwanPosition()
-    {
-        return bulletSpwanPos;
+        enemyController.Disable();
     }
-
-    public Slider GetHealthBar()
-    {
-        return healthBar;
-    }
+   
     public void SetEnemyController(EnemyController _enemyController)
     {
         enemyController = _enemyController;
@@ -51,6 +39,15 @@ public class EnemyView : MonoBehaviour , IDamagable
         enemyController.TakeDamage(damage);
     }
 
+    public int GetHealth()
+    {
+        return (int)enemyController.enemyModel.health;
+    }
+
+    public Slider GetHealthbar()
+    {
+        return healthBar;
+    }
     internal void Enable()
     {
         gameObject.SetActive(true);

@@ -1,9 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BulletPool 
+public class BulletPool : GenericMonoSingleton<BulletPool>
 {
-   public static BulletPool bulletPool = new BulletPool();
    public class PoolItem
    {
         public BulletView bulletPrefab;
