@@ -13,7 +13,7 @@ public class TankService : GenericMonoSingleton<TankService>
 
     public void CreateTank()
     {
-        TankModel tankModel = new TankModel();
+        TankModel tankModel = new TankModel(20,50);
         TankController tankController = new TankController(tankModel, tankPrefab);
     }
    

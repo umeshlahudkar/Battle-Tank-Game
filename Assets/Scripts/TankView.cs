@@ -5,6 +5,8 @@ using UnityEngine;
 public class TankView : MonoBehaviour
 {
     private TankController tankController;
+    float movement;
+    float rotation;
 
     public void setTankController(TankController _tankController)
     {
@@ -17,6 +19,22 @@ public class TankView : MonoBehaviour
 
     void Update()
     {
-        
+        UserInput();
+
+        if(movement != 0)
+        {
+            tankController.Move(movement, tankController.GetTankModel().movementSpeed);
+        }
+
+        if(rotation != 0)
+        {
+            tankController.Rotate(rotation, tankController.GetTankModel().rotationSpeed);
+        }
+    }
+
+    private void UserInput()
+    {
+        movement = Input.GetAxis("Vertical1");
+        rotation = Input.GetAxis("Horizontal1");
     }
 }
