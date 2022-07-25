@@ -13,18 +13,21 @@ public class EnemyModel
     float fireDistance;
     float patrolSpeed;
     float chaseSpeed;
+    public float initialhealth;
+    public Vector3 initialPosition;
 
 
     public EnemyModel(EnemyTankScriptableObject scriptableObject)
     {
         bulletType = scriptableObject.bulletType;
-        health = scriptableObject.health;
+        health = initialhealth = scriptableObject.health;
         wayPoints = scriptableObject.PatrolPath;
         timeToFire = scriptableObject.timeToFire;
         chaseDistance = scriptableObject.chasingDistance;
         fireDistance = scriptableObject.firingDistance;
         patrolSpeed = scriptableObject.patrolSpeed;
         chaseSpeed = scriptableObject.chaseSpeed;
+        initialPosition = scriptableObject.PatrolPath.transform.GetChild(0).position;
     }
 
     public void SetEnemyController(EnemyController _enemyController)

@@ -1,11 +1,12 @@
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class TankController
 {
     private TankModel tankModel;
     private TankView tankView;
-    private int bulletsCount;
 
     public TankController(TankModel _tankModel, TankView _tankView)
     {
@@ -18,8 +19,19 @@ public class TankController
         tankModel.setTankController(this);
         tankView.setTankController(this);
 
+        SubscribeEvent();
+    }
+
+    private void SubscribeEvent()
+    {
         EventService.Instance.OnBulletFire += UpdateBulletCount;
         EventService.Instance.OnEnemyKilled += UpdateEnemyKillCount;
+    }
+
+    private void UnSubscribeEvent()
+    {
+        EventService.Instance.OnBulletFire -= UpdateBulletCount;
+        EventService.Instance.OnEnemyKilled -= UpdateEnemyKillCount;
     }
 
     public void UpdateBulletCount()
@@ -31,8 +43,19 @@ public class TankController
     public void UpdateEnemyKillCount()
     {
         tankModel.enemyKillCount++;
-        UIDisplay.Instance.DisplayEnemyKillText(tankModel.enemyKillCount);
+        UIDisplay.Instance.DisplayEnemyKill(tankModel.enemyKillCount);
         AchievmentHandler.Instance.CheckForEnemyKillAchievmentUnlock(tankModel.enemyKillCount);
+    }
+
+    public bool IsDead()
+    {
+        if(tankModel.GetHealth() <= 0)
+        {
+            TankService.Instance.isGameOver = true;
+            UnSubscribeEvent();
+            return true;
+        }
+        return false;
     }
 
     public void Move(float movement)
@@ -47,7 +70,7 @@ public class TankController
 
     public void FireBullet(Transform bulleteTransform)
     {
-        BulletService.Instance.SpwanBullet(tankModel.GetBulletType(), bulleteTransform);
+        BulletService.Instance.CreateBullet(tankModel.GetBulletType(), bulleteTransform);
 
         EventService.Instance.InvokeOnBulletFireEvent();
     }

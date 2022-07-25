@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
@@ -22,22 +21,12 @@ public class EnemyView : MonoBehaviour , IDamagable
 
     private void Update()
     {
-        if(enemyController.IsDead())
+        if(!enemyController.IsDead() && !TankService.Instance.isGameOver)
         {
-            DestroyObject();
-            return;
+            enemyController.LookToward(sliderCanvas, mainCamera.transform.position);
+            enemyController.ProcessState();
         }
-
-        enemyController.LookToward(sliderCanvas, mainCamera.transform.position);
-        enemyController.ProcessState();
-
     }
-
-    private void DestroyObject()
-    {
-        Destroy(gameObject);
-    }
-
     public NavMeshAgent GetNavmeshAgent()
     {
         return navMeshAgent;
@@ -47,6 +36,11 @@ public class EnemyView : MonoBehaviour , IDamagable
     {
         return bulletSpwanPos;
     }
+
+    public Slider GetHealthBar()
+    {
+        return healthBar;
+    }
     public void SetEnemyController(EnemyController _enemyController)
     {
         enemyController = _enemyController;
@@ -55,6 +49,15 @@ public class EnemyView : MonoBehaviour , IDamagable
     public void TakeDamage(int damage)
     {
         enemyController.TakeDamage(damage);
-        enemyController.UpdateHealthBar(healthBar);
+    }
+
+    internal void Enable()
+    {
+        gameObject.SetActive(true);
+    }
+
+    internal void Disable()
+    {
+        gameObject.SetActive(false);
     }
 }

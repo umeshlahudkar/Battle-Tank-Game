@@ -7,7 +7,6 @@ public class EnemyIdleState : EnemyTankState
     public EnemyIdleState(Transform player, Transform enemy, NavMeshAgent agent, EnemyController _tankController, Transform _bulletSpwanPos)
                     : base(player, enemy, agent, _tankController, _bulletSpwanPos)
     {
-
     }
     public override void Enter()
     {
