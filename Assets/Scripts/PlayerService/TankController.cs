@@ -1,34 +1,53 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TankController
 {
     private TankModel tankModel;
     private TankView tankView;
-    private Rigidbody rb;
 
     public TankController(TankModel _tankModel, TankView _tankView)
     {
         tankModel = _tankModel;
         tankView = GameObject.Instantiate<TankView>(_tankView);
-        tankView.enabled = true;
-        rb = tankView.GetComponent<Rigidbody>();
+
+        // For Updating Camera Position
+        TankService.Instance.activePlayer = tankView;
 
         tankModel.setTankController(this);
         tankView.setTankController(this);
     }
 
-    public void Move(float movement, float movementSpeed)
+    public void Move(float movement)
     {
-        rb.velocity = tankView.transform.forward * movement * movementSpeed ;
+        tankView.transform.Translate(Vector3.forward * movement * tankModel.GetMovementSpeed() * Time.deltaTime);
     }
 
-    public void Rotate(float rotation, float rotationSpeed)
+    public void Rotate(float rotation)
     {
-        tankView.transform.Rotate(0, rotation * rotationSpeed * Time.deltaTime , 0);
+        tankView.transform.Rotate(0, rotation * tankModel.GetRotationSpeed() * Time.deltaTime , 0);
     }
 
+    public void FireBullet(Transform bulleteTransform)
+    {
+        BulletService.Instance.SpwanBullet(tankModel.GetBulletType(), bulleteTransform);
+    }
+
+    public void TakeDamage(float damage)
+    {
+        float health = tankModel.GetHealth() - damage;
+        tankModel.SetHealth(health);
+    }
+
+    public void LookToward(Canvas sliderCanvas , Vector3 target)
+    {
+        sliderCanvas.transform.LookAt(target);
+    }
+
+    public void UpdateHealthBar(Slider healthBar)
+    {
+        healthBar.value = tankModel.GetHealth();
+    }
     public TankModel GetTankModel()
     {
         return tankModel;

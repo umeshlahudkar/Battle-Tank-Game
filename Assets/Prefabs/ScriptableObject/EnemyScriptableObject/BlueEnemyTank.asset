@@ -13,14 +13,13 @@ MonoBehaviour:
   m_Name: BlueEnemyTank
   m_EditorClassIdentifier: 
   tankType: 2
-  WayPoints:
-  - {x: 0.1, y: 0.5, z: -31.6}
-  - {x: -3.8, y: 0.5, z: -4.4}
-  - {x: 18.1, y: 0.5, z: 10.8}
-  - {x: 38.9, y: 0.5, z: 32.6}
-  - {x: 40.4, y: 0.5, z: 6.1}
   movementSpeed: 20
   rotationSpeed: 20
+  health: 70
+  damageByEnemy: 5
+  damageByBullet: 10
   bulletType: 2
   enemyView: {fileID: 5830821930252163377, guid: 212a6017c1382e44a8774bc26adaa3d9,
+    type: 3}
+  PatrolPath: {fileID: 7004431358614855167, guid: 1c867004e6aebde4d806980703bfaebe,
     type: 3}

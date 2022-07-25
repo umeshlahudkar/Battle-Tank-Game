@@ -13,6 +13,9 @@ MonoBehaviour:
   m_Name: BlueTankScriptableObject
   m_EditorClassIdentifier: 
   tankType: 2
+  damageByEnemy: 5
+  damageByBullet: 7
+  health: 100
   movementSpeed: 20
   rotationSpeed: 50
   bulletType: 2

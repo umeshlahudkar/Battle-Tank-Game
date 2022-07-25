@@ -13,6 +13,9 @@ MonoBehaviour:
   m_Name: GreenTankScriptableObject
   m_EditorClassIdentifier: 
   tankType: 3
+  damageByEnemy: 5
+  damageByBullet: 7
+  health: 100
   movementSpeed: 20
   rotationSpeed: 70
   bulletType: 3
