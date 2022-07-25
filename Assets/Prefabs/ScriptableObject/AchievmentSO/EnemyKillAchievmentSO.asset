@@ -16,9 +16,12 @@ MonoBehaviour:
   - requirement: 5
     enemyKillAchievment: 1
     Name: Elite Killer
+    status: 1
   - requirement: 10
     enemyKillAchievment: 2
     Name: Assassin Killer
+    status: 1
   - requirement: 15
     enemyKillAchievment: 3
     Name: Senior Kiler
+    status: 1

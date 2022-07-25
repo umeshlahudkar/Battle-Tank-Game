@@ -20,6 +20,7 @@ public class EnemyPatrolState : EnemyTankState
     {
         base.Update();
 
+        // Changing state If enemy can chase
         if (CanChase())
         {
             enemyController.ChangeState(TankState.Chase);

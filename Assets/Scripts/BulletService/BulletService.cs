@@ -1,16 +1,31 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BulletService : GenericMonoSingleton<BulletService>
 {
     public BulletListScriptableObject bulletList;
 
-    public void CreateBullet(BulletType bulletType, Transform bulleteTransform)
+    public void FireBullet(BulletType bulletType, Transform fireTransform, TankController tankController)
+    {
+        CreateBullet(bulletType, fireTransform, tankController);
+    }
+
+    private void CreateBullet(BulletType bulletType, Transform fireTransform, TankController tankController)
     {
         BulletScriptableObject bulletScriptableObject = GetBulletScriptablObject(bulletType);
         BulletModel bulletModel = new BulletModel(bulletScriptableObject);
-        BulletController bulletController = new BulletController(bulletType, bulletModel, bulleteTransform, bulletScriptableObject.bulletView);
+        BulletController bulletController = new BulletController(bulletType, bulletModel, fireTransform, bulletScriptableObject.bulletView, tankController);
+    }
+
+    public void FireBullet(BulletType bulletType, Transform fireTransform, EnemyController enemyController)
+    {
+        CreateBullet(bulletType, fireTransform, enemyController);
+    }
+
+    private void CreateBullet(BulletType bulletType, Transform fireTransform, EnemyController enemyController)
+    {
+        BulletScriptableObject bulletScriptableObject = GetBulletScriptablObject(bulletType);
+        BulletModel bulletModel = new BulletModel(bulletScriptableObject);
+        BulletController bulletController = new BulletController(bulletType, bulletModel, fireTransform, bulletScriptableObject.bulletView, enemyController);
     }
 
     private BulletScriptableObject GetBulletScriptablObject(BulletType bulletType)
@@ -25,7 +40,6 @@ public class BulletService : GenericMonoSingleton<BulletService>
                 return bulletScriptableObject;
             }
         }
-
         return null;
     }
 }

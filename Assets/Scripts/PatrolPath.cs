@@ -1,7 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
+
+/// <summary>
+/// To Show WayPoints In Editor mode
+/// </summary>
 public class PatrolPath : MonoBehaviour
 {
     int j = 0;

@@ -16,9 +16,12 @@ MonoBehaviour:
   - requirement: 10
     bulletAchievment: 1
     Name: Sharp Shooter
+    status: 1
   - requirement: 25
     bulletAchievment: 2
     Name: Weapon Master
+    status: 1
   - requirement: 50
     bulletAchievment: 3
     Name: Weapon Mastry
+    status: 1

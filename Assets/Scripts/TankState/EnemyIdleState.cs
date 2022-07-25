@@ -17,6 +17,8 @@ public class EnemyIdleState : EnemyTankState
     {
         base.Update();
         timeElapced += Time.deltaTime;
+
+        // Changing State after 2S from idle to Patrol state 
         if (timeElapced >= 2f)
         {
             enemyController.ChangeState(TankState.Patrol);

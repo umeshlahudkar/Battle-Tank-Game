@@ -1,10 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
-public class EnemyTankPool
+public class EnemyTankPool : GenericMonoSingleton<EnemyTankPool>
 {
-    public static EnemyTankPool enemyTankPool = new EnemyTankPool();
     public class PoolItem
     {
         public EnemyController controller;
@@ -40,6 +37,7 @@ public class EnemyTankPool
     public void ReturnTankToPool(EnemyController tank)
     {
         PoolItem poolBullet = PooledTanks.Find(item => item.controller.Equals(tank));
-        poolBullet.IsUsed = false;
+        if(poolBullet != null)
+            poolBullet.IsUsed = false;
     }
 }

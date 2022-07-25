@@ -1,33 +1,68 @@
 using UnityEngine;
 
-public class AchievmentHandler : GenericMonoSingleton<AchievmentHandler>
+public class AchievmentHandler : MonoBehaviour
 {
     [SerializeField] AchievmentHolderSO achievmentHolder;
+    [SerializeField] GameDataScriptableObject gameData;
 
-    public void CheckForBulletAchievmentUnlock(int bulletCount)
+    private void Start()
     {
-        for(int i = 0; i < achievmentHolder.bulletAchievmentSO.BulletFireAchievment.Length; i++)
+        //PlayerPrefs.DeleteAll();
+        EventService.Instance.OnBulletFire += CheckForBulletAchievmentUnlock;
+        EventService.Instance.OnEnemyKilled += CheckForEnemyKillAchievmentUnlock;
+    }
+
+    private void OnDisable()
+    {
+        EventService.Instance.OnBulletFire -= CheckForBulletAchievmentUnlock;
+        EventService.Instance.OnEnemyKilled -= CheckForEnemyKillAchievmentUnlock;
+    }
+
+    // Check for Bullet Achievment Locked or Unlocked
+    public void CheckForBulletAchievmentUnlock()
+    {
+        BulletAchievmentSO bulletAchievmentSO = achievmentHolder.bulletAchievmentSO;
+        for (int i = 0; i < achievmentHolder.bulletAchievmentSO.BulletFireAchievment.Length; i++)
         {
-            if(achievmentHolder.bulletAchievmentSO.BulletFireAchievment[i].requirement == bulletCount)
+            if (bulletAchievmentSO.BulletFireAchievment[i].requirement == gameData.playerBulletFireCount &&
+                    GetAchievmentStatus(bulletAchievmentSO.BulletFireAchievment[i].Name) == AchievmentStatus.Locked)
             {
-                UnlockAchievment(achievmentHolder.bulletAchievmentSO.BulletFireAchievment[i].Name);
+                UnlockAchievmentStatus(bulletAchievmentSO.BulletFireAchievment[i].Name);
             }
         }
     }
 
-    public void CheckForEnemyKillAchievmentUnlock(int enemyKillCount)
+    // Check for Enemy Killed Achievment Locked or Unlocked
+    public void CheckForEnemyKillAchievmentUnlock()
     {
+        EnemyKilledAchievmentSO enemyKilledAchievmentSO = achievmentHolder.enemyKilledAchievmentSO;
         for (int i = 0; i < achievmentHolder.enemyKilledAchievmentSO.EnemyKillAchievment.Length; i++)
         {
-            if (achievmentHolder.enemyKilledAchievmentSO.EnemyKillAchievment[i].requirement == enemyKillCount)
+            if (enemyKilledAchievmentSO.EnemyKillAchievment[i].requirement == gameData.playerEnemyKilledCount &&
+                GetAchievmentStatus(enemyKilledAchievmentSO.EnemyKillAchievment[i].Name) == AchievmentStatus.Locked)
             {
-                UnlockAchievment(achievmentHolder.enemyKilledAchievmentSO.EnemyKillAchievment[i].Name);
+                UnlockAchievmentStatus(enemyKilledAchievmentSO.EnemyKillAchievment[i].Name);
             }
         }
     }
 
-    private void UnlockAchievment(string name)
+    public AchievmentStatus GetAchievmentStatus(string name)
     {
+        AchievmentStatus status =(AchievmentStatus)PlayerPrefs.GetInt(name);
+        return status;
+    }
+
+    public void UnlockAchievmentStatus(string name)
+    {
+        PlayerPrefs.SetInt(name, (int)AchievmentStatus.Unlocked);
         UIDisplay.Instance.DisplayAchievment(name);
+        EventService.Instance.InvokeOnAchievmentUnlockedEvent();
     }
 }
+
+public enum AchievmentStatus
+{
+    Locked,
+    Unlocked
+}
+

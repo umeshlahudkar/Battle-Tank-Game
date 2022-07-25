@@ -4,60 +4,75 @@ using UnityEngine.UI;
 public class TankView : MonoBehaviour , IDamagable
 {
     private TankController tankController;
-    public Transform bulletSpwanPos;
-    float movement;
-    float rotation;
+    public float movementInput;
+    public float rotationInput;
+
+    [Header("Local Components")]
+    [SerializeField] Transform bulletSpwanPos;
     [SerializeField] Canvas sliderCanvas;
     [SerializeField] Slider healthBar;
-    Camera mainCamera;
-    public void setTankController(TankController _tankController)
-    {
-        tankController = _tankController;
-    }
+    [SerializeField] Rigidbody rb;
+
+    [Header("Movement Clips")]
+    public AudioSource movementAudioSource;
+    public AudioClip tankIdleClip;
+    public AudioClip tankMovementClip;
+   
     void Start()
     {
-        mainCamera = Camera.main;
-        healthBar.maxValue = tankController.GetTankModel().GetHealth();
+        healthBar.maxValue = tankController.tankModel.playerHealth;
     }
 
     void Update()
     {
-        tankController.LookToward(sliderCanvas, mainCamera.transform.position);
-
-        if(tankController.IsDead())
+        if (tankController.IsDead())
         {
-            TankService.Instance.isGameOver = true;
-            Destroy(gameObject);
+            tankController.Dead();
             return;
         }
 
-        UserInput();
+        tankController.LookTowardCamera(sliderCanvas);
 
-        if(movement != 0)
-        {
-            tankController.Move(movement);
-        }
+        movementInput = Input.GetAxis("Vertical1");
+        rotationInput = Input.GetAxis("Horizontal1");
+        tankController.PlayMovementSound();
 
-        if(rotation != 0)
-        {
-            tankController.Rotate(rotation);
-        }
-
-        if(Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             tankController.FireBullet(bulletSpwanPos);
         }
     }
 
-    private void UserInput()
+    private void FixedUpdate()
     {
-        movement = Input.GetAxis("Vertical1");
-        rotation = Input.GetAxis("Horizontal1");
+        tankController.Move(movementInput, rb);
+        tankController.Turn(rotationInput, rb);
     }
+
 
     public void TakeDamage(int damage)
     {
         tankController.TakeDamage(damage);
         tankController.UpdateHealthBar(healthBar);
+    }
+
+    public int GetHealth()
+    {
+        return (int)tankController.tankModel.playerHealth;
+    }
+
+    internal void Enable()
+    {
+        this.enabled = true;
+    }
+
+    internal void Disable()
+    {
+        gameObject.SetActive(false);
+    }
+
+    public void setTankController(TankController _tankController)
+    {
+        tankController = _tankController;
     }
 }

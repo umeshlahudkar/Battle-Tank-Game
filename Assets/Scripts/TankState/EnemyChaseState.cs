@@ -17,15 +17,17 @@ public class EnemyChaseState : EnemyTankState
 
     public override void Update()
     {
+        // Player in Shoting range, Changing State into Attack state
         if (CanFire())
         {
             enemyController.ChangeState(TankState.Attack);
             return;
         }
 
+        // If Player out Of chasing Distance, Changing State into Idle
         if(!CanChase())
         {
-            enemyController.ChangeState(TankState.Patrol);
+            enemyController.ChangeState(TankState.Idle);
             return;
         }
 

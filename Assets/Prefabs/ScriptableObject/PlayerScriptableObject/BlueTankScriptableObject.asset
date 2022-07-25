@@ -13,11 +13,13 @@ MonoBehaviour:
   m_Name: BlueTankScriptableObject
   m_EditorClassIdentifier: 
   tankType: 2
-  damageByEnemy: 5
-  damageByBullet: 7
+  bulletLaunchForce: 15
   health: 100
   movementSpeed: 20
   rotationSpeed: 50
+  tankColor: {r: 0.3071873, g: 0.30245635, b: 0.9056604, a: 0}
   bulletType: 2
-  tankView: {fileID: 8579710060289539950, guid: 72eaf205d371a66478ccbbb8850d62ef,
+  tankView: {fileID: -8278358503533028624, guid: 8beddcb5fa2061247ac6368ae4bb5993,
+    type: 3}
+  tankExplosionParticle: {fileID: 19874418, guid: ee49a9a8678ecf8468eb488e1ac8d42b,
     type: 3}

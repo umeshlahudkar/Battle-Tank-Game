@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7e5a50924f07a84896c7a85000fad9b, type: 3}
   m_Name: GreenBullet
   m_EditorClassIdentifier: 
-  speed: 20
-  bulletDamage: 10
+  bulletColor: {r: 0, g: 1, b: 0, a: 0}
   bulletType: 3
-  bulletView: {fileID: -1536515194698254316, guid: d80a34cdcff235c4885bb3ad7fbd8021,
+  bulletView: {fileID: 8880170052156318131, guid: 7844c939b9943504ea22b64b6bac6101,
+    type: 3}
+  bulletDamage: 10
+  bulletExplosionParticle: {fileID: 19807510, guid: 89e78efe92dfe5a42837b392cdb0bf9e,
     type: 3}

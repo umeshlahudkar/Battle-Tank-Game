@@ -1,44 +1,39 @@
+using System;
 using UnityEngine;
 
 public class BulletView : MonoBehaviour
 {
     private BulletController bulletController;
-
-    private float bulletSpeed;
+    //[SerializeField] ParticleSystem bulletDestroyParticleEffect;
+    [SerializeField] Rigidbody rb;
     private float bulletDamage;
-
-    private float timeToDisable = 1;
-    private float runningTime = 0 ;
 
     private void Start()
     {
-        bulletSpeed = bulletController.GetBulletModel().GetBulletSpeed();
-        bulletDamage = bulletController.GetBulletModel().GetBulletDamage();
-
+        bulletDamage = bulletController.bulletModel.bulletDamage;
     }
 
-    void Update()
+    private void OnTriggerEnter(Collider other)
     {
-        bulletController.BulletMove(bulletSpeed);
+        IDamagable damagable = other.gameObject.GetComponent<IDamagable>();
 
-        runningTime += Time.deltaTime;
-        if(runningTime >= timeToDisable)
-        {
-            bulletController.Disable();
-            runningTime = 0;
-        }
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        IDamagable damagable = collision.gameObject.GetComponent<IDamagable>();
-
-        if(damagable != null)
+        if (damagable != null)
         {
             damagable.TakeDamage((int)bulletDamage);
+            int targetHealth = damagable.GetHealth();
+            if (targetHealth <= 0)
+            {
+                if (bulletController.tankController != null)
+                    bulletController.tankController.UpdateEnemyKillCount();
+            }
         }
 
         bulletController.Disable();
+    }
+
+    internal Rigidbody GetRigidBody()
+    {
+        return rb;
     }
 
     internal void Disable()
@@ -54,10 +49,5 @@ public class BulletView : MonoBehaviour
     public void SetBulletController(BulletController _bulletController)
     {
         bulletController = _bulletController;
-    }
-
-    public BulletController GetBulletController()
-    {
-        return bulletController;
     }
 }

@@ -1,20 +1,21 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyModel 
 {
-    EnemyController enemyController;
-    BulletType bulletType;
-    float health;
-    public GameObject wayPoints;
-    float timeToFire;
-    float chaseDistance;
-    float fireDistance;
-    float patrolSpeed;
-    float chaseSpeed;
-    public float initialhealth;
-    public Vector3 initialPosition;
+    public EnemyController enemyController { get; private set; }
+    public BulletType bulletType { get; private set; }
+    public float health { get; private set; }
+    public GameObject wayPoints { get; private set; } // Storing the Waypoints for patroling the enemy
+    public float timeToFire { get; private set; }
+    public Vector3 initialPosition { get; private set; }
+    public float chaseDistance { get; private set; }
+    public float patrolSpeed { get; private set; }
+    public float fireDistance { get; private set; }
+    public float initialhealth { get; private set; }
+    public float chaseSpeed { get; private set; }
+    public float bulletLaunchForce { get; private set; }
+    public Color tankColor { get; private set; }
+    public ParticleSystem tankExplosionParticle { get; private set; }
 
 
     public EnemyModel(EnemyTankScriptableObject scriptableObject)
@@ -28,46 +29,18 @@ public class EnemyModel
         patrolSpeed = scriptableObject.patrolSpeed;
         chaseSpeed = scriptableObject.chaseSpeed;
         initialPosition = scriptableObject.PatrolPath.transform.GetChild(0).position;
+        bulletLaunchForce = scriptableObject.bulletLaunchForce;
+        tankColor = scriptableObject.tankColor;
+        tankExplosionParticle = scriptableObject.tankExplosionParticle;
     }
 
     public void SetEnemyController(EnemyController _enemyController)
     {
         enemyController = _enemyController;
     }
-
+    
     public void SetHealth(float value)
     {
         health = Mathf.Max(0, value);
-    }
-
-    public float GetHealth()
-    {
-        return health;
-    }
-
-    public float GetFireTime()
-    {
-        return timeToFire;
-    }
-    public float GetChaseDistance()
-    {
-        return chaseDistance;
-    }
-    public float GetChaseSpeed()
-    {
-        return chaseSpeed;
-    }
-    public float GetPatrolSpeed()
-    {
-        return patrolSpeed;
-    }
-    public float GetFireDistance()
-    {
-        return fireDistance;
-    }
-
-    public BulletType GetBulletType()
-    {
-        return bulletType;
     }
 }

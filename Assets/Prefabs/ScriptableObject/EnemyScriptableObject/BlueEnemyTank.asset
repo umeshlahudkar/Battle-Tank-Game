@@ -18,11 +18,15 @@ MonoBehaviour:
   health: 70
   chaseSpeed: 4
   patrolSpeed: 3.5
-  firingDistance: 10
-  chasingDistance: 20
-  timeToFire: 3
+  firingDistance: 15
+  chasingDistance: 25
+  timeToFire: 2
+  bulletLaunchForce: 15
+  tankColor: {r: 0, g: 0.4571452, b: 1, a: 0}
   bulletType: 2
-  enemyView: {fileID: 5830821930252163377, guid: 212a6017c1382e44a8774bc26adaa3d9,
+  enemyView: {fileID: 4376768539736983463, guid: 6c92125bc1cd3e14cbb01eeb21d0845c,
     type: 3}
   PatrolPath: {fileID: 7004431358614855167, guid: 1c867004e6aebde4d806980703bfaebe,
+    type: 3}
+  tankExplosionParticle: {fileID: 19874418, guid: ee49a9a8678ecf8468eb488e1ac8d42b,
     type: 3}

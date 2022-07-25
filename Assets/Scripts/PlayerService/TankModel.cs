@@ -1,63 +1,53 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class TankModel
 {
-    TankController tankController;
-    float movementSpeed;
-    float rotationSpeed;
-    BulletType tankBulletType;
-    float playerHealth;
-    float damageByEnemyTank;
-    float damageByEnemyBullet;
+    public Color tankColor { get; private set; }
+    public TankController tankController { get; private set; }
+    public float movementSpeed { get; private set; }
+    public float rotationSpeed { get; private set; }
+    public BulletType tankBulletType { get; private set; }
+    public float playerHealth { get; private set; }
+    public int bulletCount { get; set; }
+    public int enemyKillCount { get; set; }
+    public float bulletLaunchForce { get; private set; }
+    public ParticleSystem tankExplosionParticle { get; private set; }
+    public GameDataScriptableObject gameDataScriptable { get; private set; }
 
-    public int bulletCounter;
-    public int enemyKillCount;
-
-
-    public TankModel(TankScriptableObject scriptableObject)
+    public TankModel(TankScriptableObject scriptableObject, GameDataScriptableObject gameDataScriptableObject)
     {
         movementSpeed = scriptableObject.movementSpeed;
         rotationSpeed = scriptableObject.rotationSpeed;
         tankBulletType = scriptableObject.bulletType;
         playerHealth = scriptableObject.health;
-        damageByEnemyTank = scriptableObject.damageByEnemy;
-        damageByEnemyBullet = scriptableObject.damageByBullet;
+        bulletLaunchForce = scriptableObject.bulletLaunchForce;
+        tankColor = scriptableObject.tankColor;
+        tankExplosionParticle = scriptableObject.tankExplosionParticle;
+        gameDataScriptable = gameDataScriptableObject;
+        gameDataScriptable.ResetData();
+        //ResetData();
     }
+
+    public void UpdateBulletCount()
+    {
+        gameDataScriptable.playerBulletFireCount++;
+    }
+
+    public void UpdateEnemyKilledCount()
+    {
+        gameDataScriptable.playerEnemyKilledCount++;
+    }
+
+    public void ResetData()
+    {
+        gameDataScriptable.playerBulletFireCount = 0;
+        gameDataScriptable.playerEnemyKilledCount = 0;
+        gameDataScriptable.playerScore = 0;
+    }
+
     public void setTankController(TankController _tankController)
     {
         tankController = _tankController;
-    }
-
-    public float GetMovementSpeed()
-    {
-        return movementSpeed;
-    }
-
-    public float GetRotationSpeed()
-    {
-        return rotationSpeed;
-    }
-
-    public float GetHealth()
-    {
-        return playerHealth;
-    }
-
-    public BulletType GetBulletType()
-    {
-        return tankBulletType; ;
-    }
-
-    public float GetDamageByEnemyTank()
-    {
-        return damageByEnemyTank;
-    }
-
-    public float GetDamageByEnemyBullet()
-    {
-        return damageByEnemyBullet;
     }
 
     public void SetHealth(float value)
