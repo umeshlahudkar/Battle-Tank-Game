@@ -24,3 +24,11 @@ public class TankService : GenericMonoSingleton<TankService>
     }
    
 }
+
+public enum TankType
+{
+    None,
+    Red,
+    Blue,
+    Green
+}

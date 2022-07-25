@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
 
-public class EnemyView : MonoBehaviour
+public class EnemyView : MonoBehaviour , IDamagable 
 {
     private EnemyController enemyController;
     [SerializeField] Transform bulletSpwanPos;
@@ -11,40 +11,18 @@ public class EnemyView : MonoBehaviour
     [SerializeField] Slider healthBar;
     Camera mainCamera;
 
-    public NavMeshAgent GetNavmeshAgent()
-    {
-        return navMeshAgent;
-    }
-    public void SetEnemyController(EnemyController _enemyController)
-    {
-        enemyController = _enemyController;
-    }
-
     private void Start()
     {
         mainCamera = Camera.main;
         healthBar.maxValue = enemyController.GetEnemyModel().GetHealth();
+
+        enemyController.ChangeState(TankState.Idle);
     }
 
     private void Update()
     {
         enemyController.LookToward(sliderCanvas, mainCamera.transform.position);
-
-        if (enemyController.GetEnemyModel().GetHealth() > 0 && !TankService.Instance.isGameOver)
-        {
-            if (TankService.Instance.activePlayer != null && enemyController.IsInRange(gameObject.transform.position))
-            {
-                Chase();
-            }
-            else
-            {
-                Patrolling();
-            }
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        enemyController.ProcessState();
 
         if (Input.GetKeyDown(KeyCode.Backspace))
         {
@@ -53,30 +31,23 @@ public class EnemyView : MonoBehaviour
         
     }
 
-    public void Patrolling()
+    public NavMeshAgent GetNavmeshAgent()
     {
-        enemyController.Patrol(gameObject.transform.position);
+        return navMeshAgent;
     }
 
-    public void Chase()
+    public Transform GetBulletSpwanPosition()
     {
-        enemyController.Chase(TankService.Instance.activePlayer.transform.position);
+        return bulletSpwanPos;
+    }
+    public void SetEnemyController(EnemyController _enemyController)
+    {
+        enemyController = _enemyController;
     }
 
-    private void OnCollisionEnter(Collision collision)
+    public void TakeDamage(int damage)
     {
-        if (collision.gameObject.GetComponent<BulletView>() != null)
-        {
-            enemyController.TakeDamage(enemyController.GetEnemyModel().GetDamageByPlayerBullet());
-        }
-
-        if (collision.gameObject.GetComponent<TankView>() != null)
-        {
-            enemyController.TakeDamage(enemyController.GetEnemyModel().GetDamageByPlayerTank());
-        }
-
+        enemyController.TakeDamage(damage);
         enemyController.UpdateHealthBar(healthBar);
     }
-
-
 }

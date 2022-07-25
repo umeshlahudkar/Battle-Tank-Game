@@ -9,7 +9,7 @@ public class BulletService : GenericMonoSingleton<BulletService>
     public void SpwanBullet(BulletType bulletType, Transform bulleteTransform)
     {
         BulletScriptableObject bulletScriptableObject = GetBulletScriptablObject(bulletType);
-        BulletModel bulletModel = new BulletModel(bulletScriptableObject.speed);
+        BulletModel bulletModel = new BulletModel(bulletScriptableObject);
         BulletController bulletController = new BulletController(bulletModel, bulleteTransform, bulletScriptableObject.bulletView);
     }
 
@@ -28,6 +28,12 @@ public class BulletService : GenericMonoSingleton<BulletService>
 
         return null;
     }
+}
 
-
+public enum BulletType
+{
+    None,
+    Red,
+    Blue,
+    Green
 }

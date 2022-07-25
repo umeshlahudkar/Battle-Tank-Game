@@ -8,4 +8,5 @@ public class BulletScriptableObject : ScriptableObject
     public float speed;
     public BulletType bulletType;
     public BulletView bulletView;
+    public float bulletDamage;
 }

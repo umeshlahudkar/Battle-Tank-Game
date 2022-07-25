@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TankView : MonoBehaviour
+public class TankView : MonoBehaviour , IDamagable
 {
     private TankController tankController;
     public Transform bulletSpwanPos;
@@ -55,18 +55,9 @@ public class TankView : MonoBehaviour
         rotation = Input.GetAxis("Horizontal1");
     }
 
-    private void OnCollisionEnter(Collision collision)
+    public void TakeDamage(int damage)
     {
-        if(collision.gameObject.GetComponent<BulletView>() != null)
-        {
-            tankController.TakeDamage(tankController.GetTankModel().GetDamageByEnemyBullet()); 
-        }
-
-        if (collision.gameObject.GetComponent<EnemyView>() != null)
-        {
-            tankController.TakeDamage(tankController.GetTankModel().GetDamageByEnemyTank());
-        }
-
+        tankController.TakeDamage(damage);
         tankController.UpdateHealthBar(healthBar);
     }
 }
