@@ -8,13 +8,12 @@ public class TankModel
     public float movementSpeed;
     public float rotationSpeed;
 
-    public TankModel(float _movementSpeed, float _rotationSpeed)
+    public TankModel(TankScriptableObject scriptableObject)
     {
-        movementSpeed = _movementSpeed;
-        rotationSpeed = _rotationSpeed;
+        movementSpeed = scriptableObject.movementSpeed;
+        rotationSpeed = scriptableObject.rotationSpeed;
     }
-
-   public void setTankController(TankController _tankController)
+    public void setTankController(TankController _tankController)
    {
         tankController = _tankController;
    }
